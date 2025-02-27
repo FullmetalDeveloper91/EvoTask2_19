@@ -1,12 +1,13 @@
 package ru.fmd;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
         var scanner = new Scanner(System.in);
         int a=0, b=0, c=0;
+        Map<String, Integer> answers = new LinkedHashMap<>();
 
         System.out.println("Введите 3 числа");
 
@@ -20,12 +21,21 @@ public class Main {
             return;
         }
 
-        if (
-                !multipleOf(a, 5, "a=" + a) &
-                !multipleOf(b, 5, "b=" + b) &
-                !multipleOf(c, 5, "c=" + c)
-        )
+        if(a % 5 == 0)
+            answers.put("a", a);
+        if(b % 5 == 0)
+            answers.put("b", b);
+        if(c % 5 == 0)
+            answers.put("c", c);
+
+        if(answers.isEmpty())
             System.out.println("нет значений, кратных 5");
+        else {
+            System.out.println(answers.entrySet().stream()
+                    .map(e -> e.getKey() + "=" + e.getValue())
+                    .collect(Collectors.joining(", "))
+            );
+        }
 
         System.out.printf("Результат целочисленного деления a на b: %d\n", a/b);
         System.out.printf("Результат деления a на b: %f\n", (float)a/(float)b);
@@ -38,13 +48,5 @@ public class Main {
         System.out.printf("Остаток от деления b на c: %d\n", b%c);
         System.out.printf("Наименьшее значение из a и b: %d\n", Math.min(a, b));
         System.out.printf("Наибольшее значение из b и c: %d\n", Math.max(b, c));
-    }
-
-    private static boolean multipleOf(int dividend, int divider, String message){
-        if(dividend % divider == 0){
-            System.out.println(message);
-            return true;
-        }else
-            return false;
     }
 }
